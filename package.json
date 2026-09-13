@@ -1,0 +1,132 @@
+{
+  "name": "spec-drift-monitor",
+  "displayName": "SpecKit Explorer & Drift Detector",
+  "description": "Explores the features described by your SpecKit specifications, links them to code and tests, and flags code without a spec, specs without code and specs that may be outdated.",
+  "version": "0.2.0",
+  "publisher": "KaniskaMaity",
+  "author": {
+    "name": "Kaniska Maity"
+  },
+  "license": "MIT",
+  "icon": "images/logo of extension.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaniskamMAQ007/spec-drift-monitor"
+  },
+  "engines": {
+    "vscode": "^1.124.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "spec-drift-monitor.refresh",
+        "title": "SpecKit: Rescan Workspace",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "spec-drift-monitor.showFeatures",
+        "title": "SpecKit: Show Features"
+      },
+      {
+        "command": "spec-drift-monitor.showDrift",
+        "title": "SpecKit: Show Drift"
+      },
+      {
+        "command": "spec-drift-monitor.openFile",
+        "title": "SpecKit: Open File"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "specDriftMonitor",
+          "title": "SpecKit",
+          "icon": "$(checklist)"
+        }
+      ]
+    },
+    "views": {
+      "specDriftMonitor": [
+        {
+          "id": "specDriftMonitor.driftView",
+          "name": "SpecKit",
+          "type": "webview"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "spec-drift-monitor.refresh",
+          "when": "view == specDriftMonitor.driftView",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SpecKit Explorer & Drift Detector",
+      "properties": {
+        "specDriftMonitor.useGit": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use Git history to decide whether code changed without its specification. When disabled, file modification times are used instead."
+        },
+        "specDriftMonitor.maxFilesToScan": {
+          "type": "number",
+          "default": 20000,
+          "description": "Maximum number of files to read when scanning the workspace."
+        },
+        "specDriftMonitor.excludeGlobs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional gitignore-style patterns to skip while scanning."
+        },
+        "specDriftMonitor.additionalSourceExtensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Extra file extensions to treat as source code, for example .rb or .php."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test:core": "npm run compile-tests && mocha \"out/test/core/**/*.test.js\"",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.124.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.56.1",
+    "eslint": "^9.39.3",
+    "esbuild": "^0.27.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
