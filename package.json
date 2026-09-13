@@ -8,11 +8,15 @@
     "name": "Kaniska Maity"
   },
   "license": "MIT",
-  "icon": "images/logo of extension.png",
+  "icon": "images/logo.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaniskamMAQ007/spec-drift-monitor"
+    "url": "https://github.com/kaniskamMAQ007/spec-driven-drift.git"
   },
+  "bugs": {
+    "url": "https://github.com/kaniskamMAQ007/spec-driven-drift/issues"
+  },
+  "homepage": "https://github.com/kaniskamMAQ007/spec-driven-drift#readme",
   "engines": {
     "vscode": "^1.124.0"
   },
